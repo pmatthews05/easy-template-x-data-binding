@@ -8,7 +8,7 @@ import { DataBindingExtension, createDefaultDataBindingPlugins } from "src";
 import {
     TemplateHandler,
     TemplateHandlerOptions,
-    XmlNode
+    XmlUtils
 } from "easy-template-x";
 import { XmlNodePath } from "src/xml/xmlNodePath";
 
@@ -63,6 +63,7 @@ describe(nameof(TemplateHandler), () => {
             filename
         );
 
+        const xmlParser = new XmlUtils();
         (await customXmlFiles.load()).forEach(document => {
             document.childNodes
                 .filter(node => {
@@ -73,7 +74,7 @@ describe(nameof(TemplateHandler), () => {
                 .forEach(node => {
                     const key = XmlNodePath.getPath(node);
                     const property = (data as any)[key];
-                    const textNode = XmlNode.lastTextChild(node);
+                    const textNode = xmlParser.query.lastTextChild(node);
                     expect(textNode.textContent).toBe(property.expected);
                 });
         });

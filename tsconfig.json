@@ -1,6 +1,7 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "types": ["node", "jest"],
     // --- output --- //
     "declaration": true,
     "declarationDir": "./dist/types",

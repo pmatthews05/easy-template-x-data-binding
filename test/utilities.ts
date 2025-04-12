@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import * as del from "del";
-import { XmlNode, XmlParser, Zip } from "easy-template-x";
+import { XmlNode, XmlUtils, Zip } from "easy-template-x";
 import { CustomXmlFiles } from "src/office";
 
-const xmlParser = new XmlParser();
+const xmlParser = new XmlUtils();
 
 export async function getCustomXmlFiles(id: string, name: string) {
     const savedBuffer = readOutFile(id, name);
@@ -14,7 +14,7 @@ export async function getCustomXmlFiles(id: string, name: string) {
 export function parseXml(xml: string, removeWhiteSpace = true): XmlNode {
     if (removeWhiteSpace) xml = xml.replace(/\s/g, "");
     if (removeWhiteSpace) xml = xml.replace(/\s/g, "");
-    return xmlParser.parse(xml);
+    return xmlParser.parser.parse(xml);
 }
 
 export function readFixture(filename: string): Buffer {
@@ -23,7 +23,7 @@ export function readFixture(filename: string): Buffer {
 
 export function removeOutFolder(id: string) {
     const folderPath = `./out/${id}`;
-    del.sync([folderPath]);
+    del.deleteSync([folderPath]);
 }
 
 export function readOutFile(id: string, filename: string): Buffer {

@@ -1,7 +1,8 @@
-import { XmlNodeType, XmlNode } from "easy-template-x";
+import { XmlNodeType, XmlNode, XmlUtils } from "easy-template-x";
 
 // add XmlNode snapshot serializer
 // (otherwise simple image markup snapshot takes more than 100MB!)
+const xmlParser = new XmlUtils();
 const serializer: jest.SnapshotSerializerPlugin = {
     test(value) {
         // check that 'value' is an XmlNode
@@ -15,7 +16,7 @@ const serializer: jest.SnapshotSerializerPlugin = {
     },
 
     print(value) {
-        return XmlNode.serialize(value as XmlNode);
+        return xmlParser.parser.serializeNode(value as XmlNode);
     }
 };
 

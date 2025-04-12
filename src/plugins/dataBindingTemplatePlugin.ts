@@ -1,7 +1,6 @@
 import {
     TemplateCompiler,
-    DocxParser,
-    XmlParser,
+    XmlUtils,
     XmlNode,
     TemplatePlugin
 } from "easy-template-x";
@@ -9,8 +8,8 @@ import { DataBindingPluginContent } from "./dataBindingPluginContent";
 
 export interface DataBindingPluginUtilities {
     compiler: TemplateCompiler;
-    docxParser: DocxParser;
-    xmlParser: XmlParser;
+    docxParser: XmlUtils;
+    xmlParser: XmlUtils;
 }
 
 /* eslint-disable @typescript-eslint/member-ordering */
@@ -31,12 +30,12 @@ export abstract class DataBindingTemplatePlugin extends TemplatePlugin {
         node: XmlNode,
         content: DataBindingPluginContent
     ): void | Promise<void> {
-        const contentNode: XmlNode = XmlNode.createTextNode(
+        const contentNode: XmlNode = this.utilities.xmlParser.create.textNode(
             this.convertToDataBindingValue(content.value)
         );
 
-        XmlNode.remove(XmlNode.lastTextChild(node));
-        XmlNode.appendChild(node, contentNode);
+        this.utilities.xmlParser.modify.remove(this.utilities.xmlParser.query.lastTextChild(node));
+        this.utilities.xmlParser.modify.appendChild(node, contentNode);
     }
 
     /**
